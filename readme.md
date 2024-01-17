@@ -13,7 +13,6 @@ The main steps involved in this project are:
 3. Analyzing the website structure of InfoJobs.
 4. Writing the Python code to extract job data from InfoJobs.
 5. Saving the extracted data to a CSV file.
-6. Testing the web scraper and refining the code as needed.
 
 ## Prerequisites
 
