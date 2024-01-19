@@ -7,6 +7,7 @@ import pandas as pd
 
 
 
+
 def get_vagas():
     """ 
     Função principal responsável por fazer o scraping das vagas de emprego do site InfoJobs.
@@ -15,23 +16,22 @@ def get_vagas():
 
     # instance of Options class allows
     # us to configure Headless Chrome
-
     # options = Options()
 
     # this parameter tells Chrome that
     # it should be run without UI (Headless)
-
     # options.add_argument('--headless=new')
 
-    numero_de_interações = int(input("Digite o número de interações: "))
 
+
+    numero_de_interações = int(input("Digite o numero de interacoes: "))
 
     for i in range(1,numero_de_interações):
         URL = f"https://www.infojobs.com.br/empregos-em-sao-paulo.aspx?page={i}"
         #driver = webdriver.Chrome(options=options)
         driver = webdriver.Chrome()
         driver.get(URL)
-        driver.maximize_window() 
+        driver.maximize_window()
 
         time.sleep(5)
         cookies_button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div/div/div/div[3]/button[2]")
@@ -286,7 +286,8 @@ def get_vagas():
             data = pd.DataFrame(columns=['Vaga', 'Empresa','Pontuacao_Empresa','Numero_Avaliacoes','Localizacao_da_Vaga', 'Modelo', 'Salario', 'Link_Vaga'], 
                                 data=[[vaga_title, vaga_empresa,vaga_score,vaga_num_score, vaga_localizacao, vaga_modelo, vaga_salario, link_vaga]])
 
-            data.to_csv('output.csv', mode='a', header=False, index=False)
+            data.to_csv('output.csv', mode='a', header=False, index=False, encoding='utf-8')
+
 
 
 
@@ -300,9 +301,13 @@ def get_vagas():
 
                 get_description()
 
+                with open('output.csv', 'r', encoding='utf-8') as file:
+                    last_line = file.readlines()[-1]
+            
+            return print(last_line)
+
         get_element()
         driver.quit()
-
 
 get_vagas()
   
