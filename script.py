@@ -25,10 +25,9 @@ def get_vagas():
         driver.get(URL)
         driver.maximize_window()
 
-        time.sleep(3)
+        time.sleep(2)
         cookies_button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div/div/div/div[3]/button[2]")
         cookies_button.click()
-        time.sleep(1)
 
 
 
@@ -115,7 +114,7 @@ def get_vagas():
 
             for xpath_options in xpath_options:
                 try:
-                    time.sleep(1)
+                    time.sleep(0.8)
                     vaga_empresa = driver.find_element(By.XPATH, xpath_options).text
                     break
                 except NoSuchElementException:

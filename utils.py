@@ -50,6 +50,11 @@ xpath_options_dict = {
         '/html/body/main/div[2]/form/div/div[2]/div/div/div/div[2]',
         '//*[@id="VacancyHeader"]/div[2]/div/div[2]/div[2]/span'
     ])),
+    'cookies': list(set([
+        '/html/body/div[1]/div/div/div/div/div/div[3]/button[2]',
+        '/html/body/div[1]/div/div/div/div/div/div[3]/button[2]',
+        '//*[@id="didomi-notice-agree-button"]'
+    ])),
 
     'link_vaga': list(set([
         '/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[3]/div[2]/a'
