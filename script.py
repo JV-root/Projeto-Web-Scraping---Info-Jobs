@@ -1,11 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.chrome.options import Options
 import time
 import pandas as pd
 
-
+from utils import xpath_options_dict
 
 
 def get_vagas():
@@ -14,26 +13,19 @@ def get_vagas():
     
     """
 
-    # instance of Options class allows
-    # us to configure Headless Chrome
     # options = Options()
-
-    # this parameter tells Chrome that
-    # it should be run without UI (Headless)
     # options.add_argument('--headless=new')
-
-
 
     numero_de_interações = int(input("Digite o numero de interacoes: "))
 
     for i in range(1,numero_de_interações):
-        URL = f"https://www.infojobs.com.br/empregos-em-sao-paulo.aspx?page={i}"
+        URL = f"https://www.infojobs.com.br/empregos-em-rio-janeiro.aspx?page={i}"
         #driver = webdriver.Chrome(options=options)
         driver = webdriver.Chrome()
         driver.get(URL)
         driver.maximize_window()
 
-        time.sleep(5)
+        time.sleep(3)
         cookies_button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div/div/div/div[3]/button[2]")
         cookies_button.click()
         time.sleep(1)
@@ -46,9 +38,7 @@ def get_vagas():
 
             """
 
-            xpath_options = ['/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[1]/div[1]/div[1]/a/div/span[1]',
-                            
-                            ]
+            xpath_options = xpath_options_dict['score']
 
             vaga_score = None
 
@@ -70,12 +60,23 @@ def get_vagas():
             Função responsável por fazer o scraping do número de avaliações da empresa. Caso não tenha avaliações, retorna "Sem avaliações".
 
             """
+            
+            xpath_option =  xpath_options_dict['num_score']
 
-            try:
-                primeira_vaga_avaliacoes = driver.find_element(By.XPATH, "/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[1]/div[1]/div[1]/div[2]")
-                return primeira_vaga_avaliacoes.text
-            except:
+            vaga_num_score = None
+
+            for xpath_option in xpath_option:
+                try:
+                    vaga_num_score = driver.find_element(By.XPATH, xpath_option).text
+                    break
+                except NoSuchElementException:
+                    pass
+
+            if vaga_num_score is not None:
+                return vaga_num_score
+            else:
                 return "Sem avaliações"
+             
             
 
         def get_title():
@@ -83,18 +84,14 @@ def get_vagas():
             Função responsável por fazer o scraping do título da vaga.
 
             """
-
-
-            xpath_options = ['//*[@id="VacancyHeader"]/div[1]/div[1]/h2',
-                            '//*[@id="VacancyHeader"]/div[2]/div/h2',
-                            ]
-
+            # Pega o xpath do título da vaga do arquivo utils.py
+            xpath_options = xpath_options_dict['title']
 
             vaga_title = None
 
             for xpath_options in xpath_options:
                 try:
-                    time.sleep(1)
+                    time.sleep(0.5)
                     vaga_title = driver.find_element(By.XPATH, xpath_options).text
                     break
                 except NoSuchElementException:
@@ -111,14 +108,8 @@ def get_vagas():
             Função responsável por fazer o scraping do nome da empresa.
 
             """
-            # Preciso mudar essa estrutura para um código melhor.
-
-            xpath_options = [
-            "/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[1]/div[1]/div[1]/div[1]/a",
-            "/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[1]/div[1]/div[1]/div[1]/a",
-            "/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[2]/div/div[2]/div[1]",
-            "/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[1]/div/div[1]/div[2]"
-            ]
+            # 
+            xpath_options = xpath_options_dict['empresa_name']
 
             vaga_empresa = None
 
@@ -143,15 +134,13 @@ def get_vagas():
 
             """
 
-            xpath_options = ['/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[1]/div[1]/div[2]/div[1]',
-                            '//*[@id="VacancyHeader"]/div[2]/div/div[2]/div[1]',
-                            ]
+            xpath_options = xpath_options_dict['localizacao']
 
             vaga_localizacao = None
 
             for xpath_options in xpath_options:
                 try:
-                    time.sleep(1)
+                    time.sleep(0.5)
                     vaga_localizacao = driver.find_element(By.XPATH, xpath_options).text
                     break
                 except NoSuchElementException:
@@ -169,9 +158,7 @@ def get_vagas():
 
             """
 
-            xpath_options = ['/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[1]/div[1]/div[2]/div[3]', 
-                            '/*[@id="VacancyHeader"]/div[2]/div/div[2]/div[3]'
-                            ]
+            xpath_options = xpath_options_dict['modelo']
 
             vaga_modelo = None
 
@@ -194,11 +181,7 @@ def get_vagas():
 
             """
 
-            xpath_options = ['/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[1]/div[1]/div[2]/div[2]',
-                            '/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[2]/div/div[2]/div[2]',
-                            '/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[1]/div[1]/div[2]/div[2]',
-                            '/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[2]/div/div[2]/div[2]'
-                            ]
+            xpath_options = xpath_options_dict['vaga_salario']
 
             vaga_salario = None
 
@@ -224,10 +207,7 @@ def get_vagas():
 
             """
 
-            xpath_options = ['/html/body/main/div[2]/form/div/div[2]/div/div/div/div[2]',
-                            '//*[@id="VacancyHeader"]/div[2]/div/div[2]/div[2]/span'
-                            
-                            ]
+            xpath_options = xpath_options_dict['vaga_descricao']
 
             vaga_descricao = None
 
@@ -247,10 +227,7 @@ def get_vagas():
 
         def get_link_vaga():
             
-            xpath_options = ['/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[3]/div[2]/a',
-                             '/html/body/main/div[2]/form/div/div[2]/div/div/div/div[1]/div[3]/div[2]/a'
-                             
-                             ]
+            xpath_options = xpath_options_dict['link_vaga']
 
             vaga_link = None
 
@@ -285,26 +262,29 @@ def get_vagas():
 
             data = pd.DataFrame(columns=['Vaga', 'Empresa','Pontuacao_Empresa','Numero_Avaliacoes','Localizacao_da_Vaga', 'Modelo', 'Salario', 'Link_Vaga'], 
                                 data=[[vaga_title, vaga_empresa,vaga_score,vaga_num_score, vaga_localizacao, vaga_modelo, vaga_salario, link_vaga]])
+            
+            # Tratamento da Localização da Vaga
+            data['Localizacao_da_Vaga'] = data['Localizacao_da_Vaga'].str.split(',').str[0]
 
             data.to_csv('output.csv', mode='a', header=False, index=False, encoding='utf-8')
 
+
+            with open('output.csv', 'r', encoding='utf-8') as file:
+                    last_line = file.readlines()[-1]
+
+            return print(last_line)
 
 
 
         def get_element():
             
             for i in range(1, 20):
-                time.sleep(1)
+                time.sleep(0.3)
                 element = f'/html/body/main/div[2]/form/div/div[1]/div[2]/div[{i}]'
                 click_element = driver.find_element(By.XPATH, element)
                 click_element.click()
 
                 get_description()
-
-                with open('output.csv', 'r', encoding='utf-8') as file:
-                    last_line = file.readlines()[-1]
-            
-            return print(last_line)
 
         get_element()
         driver.quit()

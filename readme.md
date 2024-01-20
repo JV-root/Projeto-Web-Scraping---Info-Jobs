@@ -18,11 +18,9 @@ The main steps involved in this project are:
 
 Before starting this project, you should have some basic knowledge of Python programming and HTML structure. You will also need the following Python packages:
 
-- requests
-- BeautifulSoup
-- csv
-- datetime
-- selenium
+- Selenium
+- Time
+- pandas
 
 If you're working in a Jupyter Notebook environment, you can install any additional packages using `!pip install packagename` within a notebook cell. For example:
 
