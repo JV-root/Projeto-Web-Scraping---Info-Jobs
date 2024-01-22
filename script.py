@@ -19,7 +19,9 @@ def get_vagas():
     numero_de_interações = int(input("Digite o numero de interacoes: "))
 
     for i in range(1,numero_de_interações):
-        URL = f"https://www.infojobs.com.br/empregos-em-rio-janeiro.aspx?page={i}"
+
+
+        URL = f"https://www.infojobs.com.br/empregos-em-belo-horizonte,-mg.aspx?page={1}"
         #driver = webdriver.Chrome(options=options)
         driver = webdriver.Chrome()
         driver.get(URL)
